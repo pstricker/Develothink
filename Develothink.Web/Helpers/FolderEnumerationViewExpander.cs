@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc.Razor;
 
 
-namespace Develothink.Web
+namespace Develothink.Web.Helpers
 {
     public class FolderEnumerationViewExpander : IViewLocationExpander
     {

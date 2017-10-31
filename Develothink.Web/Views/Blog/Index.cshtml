@@ -1,3 +1,13 @@
-﻿@{
+﻿@using Develothink.BlogProvider.Entities;
+
+@model ICollection<BlogPost>
+
+@{
     ViewData["Title"] = "Blog";
+}
+
+<h1>Blog Posts</h1>
+@foreach (var post in Model)
+{
+    <div><a href="@post.Route">@post.Title</a></div>
 }
