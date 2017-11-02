@@ -1,0 +1,55 @@
+﻿@light-green: #EFFFCD;
+@pale-green: #DCE9BE;
+@gray: #555152;
+@black: #2E2633;
+@red: #99173C;
+@black-border: @black solid 3px;
+
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, a.navbar-brand {
+    font-family: 'Source Code Pro', monospace;
+    font-weight: 700;
+}
+
+nav.navbar.develothink {
+    background-color: @gray;
+    border-bottom: @black-border;
+    border-radius: 0;
+    margin-bottom: 0;
+
+    div.navbar-header a.navbar-brand {
+        color: @light-green;
+    }
+
+    ul.navbar-nav li a {
+        color: @pale-green;
+    }
+
+    ul.navbar-nav li a:hover {
+        color: #fff;
+        background-color: @black;
+    }
+
+    span.icon-bar {
+        background: @pale-green;
+    }
+}
+
+div.page-header {
+    background-image: url("/images/hero.jpg");
+    margin: 0;
+    height: 200px;
+    padding: 50px;
+    background-position: 50% 85%;
+    text-align: center;
+    margin: -15px;
+    border-bottom: @black-border;
+
+
+    h1 {
+        color: @light-green;
+    }
+}

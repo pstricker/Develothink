@@ -41,7 +41,7 @@ namespace Develothink.Web
             }
             else
             {
-                app.UseResponseCompression();
+                //app.UseResponseCompression();
                 app.UseExceptionHandler("/Home/Error");
             }
 
