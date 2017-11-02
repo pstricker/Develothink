@@ -26,12 +26,10 @@ namespace Develothink.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IPostsRepositry>(new JsonPostsRepository(ConfigurationPath.Combine("posts.json")));
+            services.AddSingleton<IPostsMetaDataRepositry>(new JsonPostsMetaDataRepository(ConfigurationPath.Combine("posts.json")));
             services.Configure<RazorViewEngineOptions>(o => { o.ViewLocationExpanders.Add(new FolderEnumerationViewExpander()); });
             services.AddMvc();
         }
-
-
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -43,6 +41,7 @@ namespace Develothink.Web
             }
             else
             {
+                app.UseResponseCompression();
                 app.UseExceptionHandler("/Home/Error");
             }
 

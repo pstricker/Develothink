@@ -29,5 +29,10 @@ namespace Develothink.BlogProvider.Extensions
             }
             return sb.ToString();
         }
+
+        public static string[] ToSearchableStringArray(this string input)
+        {
+            return input.ToLower().Split(" ");
+        }
     }
 }

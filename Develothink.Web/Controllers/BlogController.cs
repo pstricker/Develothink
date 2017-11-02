@@ -12,21 +12,26 @@ namespace Develothink.Web.Controllers
 {
     public class BlogController : Controller
     {
-        private readonly IPostsRepositry _postsRepositry;
+        private readonly IPostsMetaDataRepositry _postsMetaDataRepositry;
 
-        public BlogController(IPostsRepositry postsRepositry)
+        public BlogController(IPostsMetaDataRepositry postsMetaDataRepositry)
         {
-            _postsRepositry = postsRepositry;
+            _postsMetaDataRepositry = postsMetaDataRepositry;
         }
 
         public IActionResult Index()
         {
-            return View(_postsRepositry.GetAllPosts());
+            return View(_postsMetaDataRepositry.GetAllPosts());
         }
 
         public IActionResult ReadArticle(string article)
         {
             return View(article.Replace("/","").ConvertDashToPascalCase());
+        }
+
+        public IActionResult Search(string term)
+        {
+            return View(_postsMetaDataRepositry.SearchBlogPosts(term));
         }
     }
 }
