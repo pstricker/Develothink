@@ -35,8 +35,14 @@
                 <ul class="nav navbar-nav">
                     <li><a asp-controller="Home" asp-action="Index">Blog</a></li>
                     <li><a asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-controller="Blog" asp-action="Search" asp-route-term="microsoft dotnet article">Search</a></li>
                 </ul>
+                @using (Html.BeginForm("Search", "Blog", FormMethod.Post, new { @class = "navbar-form navbar-right" }))
+                {
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="term" placeholder="Search Develothink.com">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                }
             </div>
         </div>
     </nav>
