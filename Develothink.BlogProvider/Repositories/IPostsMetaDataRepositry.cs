@@ -9,6 +9,7 @@ namespace Develothink.BlogProvider.Repositories
     {
         ICollection<BlogPost> GetAllPosts();
         BlogPost GetPostById(int id);
+        BlogPost GetLatestPost();
         ICollection<BlogPost> GetPostsByTag(string tag);
         ICollection<BlogPost> GetPostsByYear(int year);
         ICollection<BlogPost> GetPostsByYearAndMonth(int year, int month);

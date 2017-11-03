@@ -2,6 +2,18 @@
     ViewData["Title"] = "Mastering C#";
 }
 
+@model HomeViewModel
+
 <div class="page-header center-block">
     <h1>Develothink</h1>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-9">
+            @{
+                Html.RenderPartial(Model.LatestBlogPostRoute);
+            }
+        </div>
+        <div class="col-lg-3"></div>
+    </div>
 </div>

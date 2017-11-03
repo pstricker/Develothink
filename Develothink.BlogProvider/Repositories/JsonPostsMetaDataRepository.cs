@@ -29,6 +29,11 @@ namespace Develothink.BlogProvider.Repositories
             return _blogPosts.FirstOrDefault(p => p.Id == id);
         }
 
+        public BlogPost GetLatestPost()
+        {
+            return _blogPosts.OrderByDescending(p => p.Posted).FirstOrDefault();
+        }
+
         public ICollection<BlogPost> GetPostsByYear(int year)
         {
             return _blogPosts.Where(p => p.Posted.Year == year).ToList();

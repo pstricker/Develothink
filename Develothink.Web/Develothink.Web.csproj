@@ -2,13 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Remove="Views\Blog\2015\01\MicrosoftDotnetFightingTheMan.cshtml" />
-    <Content Remove="Views\Blog\2017\10\ThisIsMyArticle.cshtml" />
-  </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
@@ -33,18 +28,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Develothink.BlogProvider\Develothink.BlogProvider.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="posts.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Views\Blog\Index.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="wwwroot\css\develothink.min.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
 </Project>
