@@ -46,7 +46,7 @@ div.page-header {
   padding: 75px;
   background-position: 50% 85%;
   text-align: center;
-  margin: -15px;
+  margin: 0 -15px;
   border-bottom: #2E2633 solid 3px;
 }
 div.page-header h1 {

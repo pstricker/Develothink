@@ -14,5 +14,6 @@ namespace Develothink.BlogProvider.Repositories
         ICollection<BlogPost> GetPostsByYear(int year);
         ICollection<BlogPost> GetPostsByYearAndMonth(int year, int month);
         ICollection<BlogPost> SearchBlogPosts(string searchTerms);
+        ICollection<BlogPost> GetFiveLastestPosts();
     }
 }

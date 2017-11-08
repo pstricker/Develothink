@@ -23,7 +23,8 @@ namespace Develothink.Web.Controllers
         {
             var model = new HomeViewModel()
             {
-                LatestBlogPostRoute = _postsMetaDataRepositry.GetLatestPost().Route.ConvertDashToPascalCase()
+                LatestBlogPostRoute = _postsMetaDataRepositry.GetLatestPost().Route.ConvertDashToPascalCase(),
+                LatestPosts = _postsMetaDataRepositry.GetFiveLastestPosts()
             };
 
             return View(model);

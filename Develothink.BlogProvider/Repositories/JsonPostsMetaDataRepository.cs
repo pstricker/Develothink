@@ -21,7 +21,7 @@ namespace Develothink.BlogProvider.Repositories
 
         public ICollection<BlogPost> GetAllPosts()
         {
-            return _blogPosts.OrderByDescending(p => p.Posted).ToArray();
+            return _blogPosts.OrderByDescending(p => p.Posted).ToList();
         }
 
         public BlogPost GetPostById(int id)
@@ -65,6 +65,11 @@ namespace Develothink.BlogProvider.Repositories
 
             return weightedResults.OrderByDescending(r => r.Value)
                                   .Select(result => _blogPosts.FirstOrDefault(p => p.Id == result.Key)).ToList();
+        }
+
+        public ICollection<BlogPost> GetFiveLastestPosts()
+        {
+            return _blogPosts.OrderByDescending(p => p.Posted).Take(5).ToList();
         }
 
         private static Dictionary<int, int> WeightedSearchResults(IEnumerable<BlogPost> posts)
