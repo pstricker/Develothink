@@ -13,11 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="BlogProvider\Extensions\" />
-    <Folder Include="BlogProvider\Repositories\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Develothink.BlogProvider\Develothink.BlogProvider.csproj" />
   </ItemGroup>
 
