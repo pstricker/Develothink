@@ -1,0 +1,127 @@
+﻿@{
+    ViewData["title"] = "Sorting Tables Using Kockout.js";
+}
+
+<article>
+    <header class="entry-header">
+        <h1 class="entry-title">Sorting Tables Using KnockoutJS</h1>
+        <div class="entry-meta">
+            <span class="posted-on">Posted on <a href="http://www.develothink.com/sorting-tables-using-knockoutjs/" rel="bookmark"><time class="entry-date published" datetime="2015-02-22T16:04:26+00:00">February 22, 2015</time></a></span>
+        </div>
+    </header>
+    <div class="entry-content">
+        <p>I recently came up with a useful method for sorting tables using <a title="KnockoutJS website" href="http://knockoutjs.com/" target="_blank">KnockoutJS</a> that I felt was worth sharing. Supporting sorting of a grid/table is a pretty common feature you see on the web. However, most implementations are using an AJAX callback (or sometimes a full postback) to request the data in the desired sort pattern. The example I outline here uses KnockoutJS&#8217; client side data binding and dependency tracking to sort efficiently without extra trips to the server. (<a title="Client Side Table Sorting Demo - Develothink" href="http://demos.develothink.com/js/sortable.html" target="_blank">See Demo</a>)</p>
+        <h3>Setting up the ViewModel</h3>
+        <p>There are two key object properties on the viewmodel that make the sorting possible: columns (self.columns) and data (self.players). Since we are using KnockoutJS, both of the objects are instances of observableArrays:</p>
+<pre class="wp-code-highlight prettyprint">// Observable array that represents each column in the table
+self.columns = ko.observableArray([
+    { property: &quot;firstName&quot;, header: &quot;First Name&quot;, type: &quot;string&quot;, state: ko.observable(&quot;&quot;) },
+    { property: &quot;lastName&quot;, header: &quot;Last Name&quot;, type: &quot;string&quot;, state: ko.observable(&quot;&quot;) },
+    { property: &quot;dob&quot;, header: &quot;Date of Birth&quot;, type: &quot;date&quot;, state: ko.observable(&quot;&quot;) },
+    { property: &quot;wsWon&quot;, header: &quot;World Series Championships&quot;, type: &quot;number&quot;, state: ko.observable(&quot;&quot;) },
+    { property: &quot;stats.hr&quot;, header: &quot;Home Runs&quot;, type: &quot;object&quot;, state: ko.observable(&quot;&quot;) },
+    { property: &quot;stats.avg&quot;, header: &quot;Batting Average&quot;, type: &quot;object&quot;, state: ko.observable(&quot;&quot;) }
+]);
+
+// Observable array that will be our data
+self.players = ko.observableArray([
+    { firstName: &quot;Micky&quot;, lastName: &quot;Mantle&quot;, dob: &quot;10/20/1931&quot;, wsWon: &quot;7&quot;, stats: { hr: &quot;536&quot;, avg: &quot;.298&quot; } },
+    { firstName: &quot;Ken&quot;, lastName: &quot;Griffey Jr.&quot;, dob: &quot;11/21/1969&quot;, wsWon: &quot;0&quot;, stats: { hr: &quot;630&quot;, avg: &quot;.284&quot; } },
+    { firstName: &quot;Derek&quot;, lastName: &quot;Jeter&quot;, dob: &quot;6/26/1974&quot;, wsWon: &quot;5&quot;, stats: { hr: &quot;260&quot;, avg: &quot;.310&quot; } },
+    { firstName: &quot;Lenny&quot;, lastName: &quot;Dykstra&quot;, dob: &quot;2/10/1963&quot;, wsWon: &quot;1&quot;, stats: { hr: &quot;81&quot;, avg: &quot;.285&quot; } },
+    { firstName: &quot;Ty&quot;, lastName: &quot;Cobb&quot;, dob: &quot;12/18/1886&quot;, wsWon: &quot;0&quot;, stats: { hr: &quot;117&quot;, avg: &quot;.367&quot; } }
+]);
+</pre>
+        <p>Notice how each object in the self.columns observable array has a key &#8220;property&#8221; that&#8217;s value corresponds to a key (or in some cases a child object and key) in the object that makes of the observable array of self.players. It is this relationship that we will capitalize on.</p>
+        <h3>Binding Data in the View</h3>
+        <p>In the view, we use two separate KnockoutJS &#8220;foreach&#8221; data binds to define our table. The first in the table header that builds the headers for each column. The second in the table body that fills the table body with rows of data:</p>
+        <table id="playersTable" class="table table-striped">
+            <thead>
+                <tr data-bind="foreach: columns">
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-bind="text: firstName"></td>
+                    <td data-bind="text: lastName"></td>
+                    <td data-bind="text: dob"></td>
+                    <td data-bind="text: wsWon"></td>
+                    <td data-bind="text: stats.hr"></td>
+                    <td data-bind="text: stats.avg"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Performing Sorts for Different Data Types</h3>
+        <p>One of key features in this implementation is ability to sort different data types. JavaScript&#8217;s Array.sort method is a handy feature (<a title="MDN - Array.prototype.sort()" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort" target="_blank">read more about it here</a>) of the language but unfortunately needs different compare functions for different data types. Below are the different sorts based on data type:</p>
+<pre class="wp-code-highlight prettyprint"> // Generic sort method for numbers and strings
+ self.stringSort = function (column) { // Pass in the column object
+
+     self.players(self.players().sort(function (a, b) {
+
+         // Set strings to lowercase to sort in a predictive way
+         var playerA = a[column.property].toLowerCase(), playerB = b[column.property].toLowerCase();
+         if (playerA < playerB) {
+             return (column.state() === self.ascending) ? -1 : 1;
+         }
+         else if (playerA > playerB) {
+             return (column.state() === self.ascending) ? 1 : -1;
+         }
+         else {
+             return 0
+         }
+     }));
+ };
+
+ // Sort numbers
+ self.numberSort = function (column) {
+     self.players(self.players().sort(function (a, b) {
+
+         var playerA = a[column.property], playerB = b[column.property];
+         if (column.state() === self.ascending) {
+             return playerA - playerB;
+         }
+         else {
+             return playerB - playerA;
+         }
+     }));
+ };
+
+ // Sort by date
+ self.dateSort = function (column) {
+
+     self.players(self.players().sort(function (a, b) {
+
+         if (column.state() === self.ascending) {
+             return new Date(a[column.property]) - new Date(b[column.property]);
+         }
+         else {
+             return new Date(b[column.property]) - new Date(a[column.property]);
+         }
+     }));
+ };
+
+ // Using a deep get method to find nested object properties
+ self.objectSort = function (column) {
+
+     self.players(self.players().sort(function (a, b) {
+
+         var playerA = self.deepGet(a, column.property),
+         playerB = self.deepGet(b, column.property);
+
+         if (playerA < playerB) {
+             return (column.state() === self.ascending) ? -1 : 1;
+         }
+         else if (playerA > playerB) {
+             return (column.state() === self.ascending) ? 1 : -1;
+         }
+         else {
+             return 0
+         }
+     }));
+ };</pre>
+        <h3>See the Code In Action</h3>
+        <p>To see this example in action please <a title="Client Side Table Sorting Demo - Develothink" href="http://demos.develothink.com/js/sortable.html" target="_blank">check out the demo</a>. The full code is also <a title="pstricker/koTableSort" href="https://github.com/pstricker/koTableSort/" target="_blank">available on GitHub</a>.</p>
+    </div><!-- .entry-content -->
+</article>
