@@ -17,7 +17,10 @@
     <EmbeddedResource Include="Views\Blog\2015\01\MicrosoftDotnetFightingTheMan.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Blog\2017\10\ThisIsMyArticle.cshtml">
+    <EmbeddedResource Include="Views\Blog\2015\02\SortingTablesUsingKnockoutjs.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource> 
+    <EmbeddedResource Include="Views\Blog\2015\12\CodeReviewsInPractice.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
