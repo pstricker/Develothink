@@ -9,8 +9,8 @@ namespace Develothink.Tests
         [Fact]
         public void ConvertDashToPascalCase_CorrectFormat_ConvertsCorrectly()
         {
-            Assert.Equal("this-is-my-blog-post".ConvertDashToPascalCase(), "ThisIsMyBlogPost");
-            Assert.Equal("THIS-IS-MY-BLOG-POST".ConvertDashToPascalCase(), "ThisIsMyBlogPost");
+            Assert.Equal("ThisIsMyBlogPost", "this-is-my-blog-post".ConvertDashToPascalCase());
+            Assert.Equal("ThisIsMyBlogPost", "THIS-IS-MY-BLOG-POST".ConvertDashToPascalCase());
         }
     }
 }
